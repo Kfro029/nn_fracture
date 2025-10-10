@@ -89,12 +89,7 @@ print("""		[/correctors]
 FRACTURES_DIR = "/home/faki/one_fracture_chimera/fractures"
 
 txt_files = glob.glob(os.path.join(FRACTURES_DIR, "*.txt"))
-
-if not txt_files:
-    
-    print("В папке fractures нет файлов .txt")
-else:
-    first_txt = txt_files[0]
+first_txt = txt_files[0]
     
 fractures = []
 cnt = 0
@@ -106,7 +101,9 @@ with open(first_txt, 'r') as f:
         
         fracture_grid_id = f"fracture_grid_{cnt:05}"
         pos_A_x, pos_A_y, pos_B_x, pos_B_y = (float(numer) for numer in line.split())
-        if pos_A_x > pos_B_x:
+        #наша трещина -- это отрезок AB. Причем точка А -- левая и (или) нижняя. Если трещина близка к горизонатали - приоритетно левая. Если трещина близка к вертикали - приоритетно нижняя. Можно этот выбор точек автоматизировать.
+
+        if pos_A_x >  pos_B_x:
             pos_A_x, pos_A_y, pos_B_x, pos_B_y = pos_B_x, pos_B_y, pos_A_x, pos_A_y
 
         fractures.append([pos_A_x, pos_A_y, pos_B_x, pos_B_y])
@@ -266,13 +263,14 @@ print("""[/grids]
 
 [contacts]""")
 for i in range(cnt):
+
     pos_A_x, pos_A_y, pos_B_x, pos_B_y = fractures[i][0], fractures[i][1], fractures[i][2], fractures[i][3]
-    
     dx = pos_B_x - pos_A_x #координаты у каждой трещины свои
     dy = pos_B_y - pos_A_y
     L = sqrt(dx*dx + dy*dy)
     N_fr = (int)(L/step + 0.5)
     step_fr = L / ((float)(N_fr))
+    IF_FR_HOR = (abs(dy) < abs(dx))
     #это контакт собственно для расчета рассеяния на самой трещине
     fracture_grid_id = f"fracture_grid_{i:05}"
     interpol_file_fracture = f"TXT/interpol_file_fracture_{i:05}.txt"
@@ -304,6 +302,7 @@ for i in range(cnt):
     else:
         print("        bottomLeftCorner = %s, %s" %(N_chi, N_chi))
         print("        topRightCorner = %s, %s" %(N_chi, N_chi + N_fr))
+    print(f"        #L = {L}, dx = {dx}, dy = {dy}, N_fr = {N_fr}")
     print("""        enableFiller = 1
             enableSaver = 0
             [schema]

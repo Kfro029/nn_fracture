@@ -33,8 +33,8 @@ for ((i=1; i<=$NUM_FILES; i++)); do
     
     # передаём --out и --meta. при необходимости --seed и др.
     python3 fracture_generator_vtk.py \
-        --xmin -200 --xmax 0 \
-        --ymin -200 --ymax 0 \
+        --xmin -200 --xmax 200 \
+        --ymin -200 --ymax 200 \
         --N "$RANDOM_N" \
         --out "$OUT_FILE" \
         --meta "$META_FILE" \
