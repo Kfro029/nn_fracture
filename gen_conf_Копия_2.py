@@ -5,12 +5,7 @@ import os
 import glob
 from curved_grid_generator import print_material, print_no_reflect_filler, print_free_boundary_2D, find_N, save_to_vtk, set_dummy_fracture, gen_interpolation_file_from_rotated_rect_to_rect_2D, gen_interpolation_file_from_rect_to_rotated_rect_2D, print_interpolation_corrector_with_given_file_name
 from math import sqrt, atan
-
-'''
-def nearest_ax(A_x, A_y, B_x, B_y):
-    return (1 if abs((B_y - A_y)/(B_x - A_x)) < 1 else 0)
-'''
-
+import sys
 
 
 #то что к трещине уборать под цикл. e end s start. 1 - 1 раз, относится НЕ к трещине
@@ -89,7 +84,8 @@ print("""		[/correctors]
 FRACTURES_DIR = "/home/faki/one_fracture_chimera/fractures"
 
 txt_files = glob.glob(os.path.join(FRACTURES_DIR, "*.txt"))
-first_txt = txt_files[0]
+filename = sys.argv[1]
+first_txt = os.path.join(FRACTURES_DIR, filename)
     
 fractures = []
 cnt = 0
@@ -324,21 +320,21 @@ print("""[/contacts]
 
 #сохранение волнового поля. чисто для теста. для генерации выборки оно не нужно
 #сохранение волнового поля. чисто для теста. для генерации выборки оно не нужно
-print("""    [saver]
-        name = StructuredVTKSaver
-        path = VTK/%g_%s.vtk
-        order = 1""")
-print("        save = %i" %save)
-print("""        save_rank = true
-        params = v
-        norms = 1
-    [/saver]""")
+#print("""    [saver]
+#        name = StructuredVTKSaver
+#        path = VTK/%g_%s.vtk
+#        order = 1""")
+#print("        save = %i" %save)
+#print("""        save_rank = true
+#        params = v
+#        norms = 1
+#    [/saver]""")
 
 #сохранение сейсмограммы
 
 print("""	[saver]					
 		name = SeismogramSaver""")
-print("		path = receivers.csv")					
+print(f"		path = receivers_{filename}.csv")					
 print("		r0 = %s, %s" %(receivers_start_x, receivers_y))			
 print("		dr = %s, 0.0" %(receivers_step))			
 print("		number = %s" %(receivers_number))			

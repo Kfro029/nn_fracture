@@ -31,6 +31,9 @@ ln -s ../mlib/mlib
 chmod +x generate_random.sh
 ./generate_random.sh
 
+название файла будет формата: fractures_{id}_{количество трещин}_{средний угол}_{угол разброса}_{средняя длина}_{дисперсия длины}
+
+
 --Шаг 3. Запуск расчета
 -- chmod +x run.sh
 -- ./run.sh
