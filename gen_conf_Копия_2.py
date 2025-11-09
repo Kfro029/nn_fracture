@@ -334,7 +334,7 @@ print("""[/contacts]
 
 print("""	[saver]					
 		name = SeismogramSaver""")
-print(f"		path = receivers_{filename}.csv")					
+print(f"		path = receivers_{filename}")					
 print("		r0 = %s, %s" %(receivers_start_x, receivers_y))			
 print("		dr = %s, 0.0" %(receivers_step))			
 print("		number = %s" %(receivers_number))			

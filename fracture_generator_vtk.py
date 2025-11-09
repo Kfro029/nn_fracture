@@ -316,8 +316,10 @@ def main():
     p.add_argument('--samples', type=int, default=1,
                    help='how many vtk samples to produce (appends _i)')
     p.add_argument('--seed', type=int, default=None)
+    
     p.add_argument('--vtk-type', choices=['polydata','structured'], default='structured',
                    help='Тип выходного VTK: polydata (линии) или structured (сетка)')
+                   
     args = p.parse_args()
 
     if args.seed is not None:
@@ -354,6 +356,7 @@ def main():
     base_out = args.out
     base_meta = args.meta
     for sample_i in range(args.samples):
+    
         out_vtk = base_out if args.samples == 1 else f"{os.path.splitext(base_out)[0]}_{sample_i:04d}.vtk"
         out_meta = base_meta if args.samples == 1 else f"{os.path.splitext(base_meta)[0]}_{sample_i:04d}.json"
 
@@ -369,28 +372,29 @@ def main():
             print("Failed to place segments with given parameters.")
             continue
 
-        if args.vtk_type == 'polydata':
-            write_vtk_polydata_lines(out_vtk, segs, header_comment=f"Generated sample {sample_i}")
-        else:
-            # Пишем STRUCTURED_GRID — файл совместим с rect
-            # Используем spacing_val, который определён выше (из args или conf)
-            write_vtk_rectilinear_grid_mask(
-                out_vtk, segs, cluster_bbox, spacing_val, thickness=0.6,
-                header_comment=f"Generated RECTILINEAR_GRID sample {sample_i}"
-            )
-
-
-        # metadata
-        meta = {
-            'sample': sample_i,
-            'N': args.N,
-            'cluster_bbox': cluster_bbox,
-            'segments': [{'Ax': float(s[0]), 'Ay': float(s[1]),
-                          'Bx': float(s[2]), 'By': float(s[3])} for s in segs]
-        }
-        with open(out_meta, 'w', encoding='utf-8') as f:
-            json.dump(meta, f, indent=2)
-        print(f"Wrote {out_vtk} and {out_meta}")
+        # ЗАКОММЕНТИРОВАННЫЙ БЛОК: создание VTK файлов
+        # if args.vtk_type == 'polydata':
+        #     write_vtk_polydata_lines(out_vtk, segs, header_comment=f"Generated sample {sample_i}")
+        # else:
+        #     # Пишем STRUCTURED_GRID — файл совместим с rect
+        #     # Используем spacing_val, который определён выше (из args или conf)
+        #     write_vtk_rectilinear_grid_mask(
+        #         out_vtk, segs, cluster_bbox, spacing_val, thickness=0.6,
+        #         header_comment=f"Generated RECTILINEAR_GRID sample {sample_i}"
+        #     )
+        #
+        #
+        # # metadata
+        # meta = {
+        #     'sample': sample_i,
+        #     'N': args.N,
+        #     'cluster_bbox': cluster_bbox,
+        #     'segments': [{'Ax': float(s[0]), 'Ay': float(s[1]),
+        #                   'Bx': float(s[2]), 'By': float(s[3])} for s in segs]
+        # }
+        # with open(out_meta, 'w', encoding='utf-8') as f:
+        #     json.dump(meta, f, indent=2)
+        # print(f"Wrote {out_vtk} and {out_meta}")
         
         # --- Дополнительно пишем простой TXT с координатами ---
         txt_file = os.path.splitext(out_meta)[0] + ".txt"
@@ -399,10 +403,5 @@ def main():
                 ftxt.write(f"{s[0]:.6f} {s[1]:.6f} {s[2]:.6f} {s[3]:.6f}\n")
         print(f"Wrote plain coords: {txt_file}")
 
-        
-
-
 if __name__ == '__main__':
     main()
-
-
