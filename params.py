@@ -8,7 +8,7 @@ cP = 2.0 #это км в сек. Или м в мс. то есть раз у на
 cS = 1.0
 rho = 2.0
 dt = 0.4 #это мс
-N_chi = 10
+N_chi = 5
 save = 6
 
 receivers_number_half = 200
@@ -44,4 +44,4 @@ elif (var == 3):
 	pos_B_x = -10.0
 	pos_B_y = -40.0
 """
-freq = 0.03
+freq = 0.06

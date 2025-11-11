@@ -350,7 +350,9 @@ def main():
         spacing_val = args.spacing
         print("Cluster bbox from args:", cluster_bbox, "spacing", spacing_val)
 
-    buffer = args.buffer_nodes * spacing_val
+    from params import N_chi
+    from math import sqrt
+    buffer = N_chi * 2 * sqrt(2)
 
     # генерация
     base_out = args.out
