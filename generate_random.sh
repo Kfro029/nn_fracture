@@ -50,4 +50,4 @@ for ((i=1; i<=$NUM_FILES; i++)); do
     # echo "----------------------------------------"
 done
 
-echo "Генерация завершена! Создано $NUM_FILES файлов в $FRACTURES_DIR/"
+#echo "Генерация завершена! Создано $NUM_FILES файлов в $FRACTURES_DIR/"

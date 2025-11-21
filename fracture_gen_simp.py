@@ -79,10 +79,12 @@ def generate_fractures(N, mean_angle, angle_spread, mean_length, length_spread, 
     """
     xmin, xmax, ymin, ymax = bbox
     fractures = []
+    
+    #succes_fr = N
 
     for i in range(N):
         placed = False
-        for attempt in range(1000):  # ограничим число попыток
+        for attempt in range(100000):  # ограничим число попыток
             # случайный угол (в градусах)
             angle_deg = random.uniform(mean_angle - angle_spread, mean_angle + angle_spread)
             angle = math.radians(angle_deg)
@@ -118,14 +120,11 @@ def generate_fractures(N, mean_angle, angle_spread, mean_length, length_spread, 
 
         if not placed:
             print(f"Не возможно разместить трещины!")
-            break
+            #succes_fr -= 1
+            #break
 
     return fractures
 
-
-# =======================================
-# 3. Основная программа
-# =======================================
 
 def main():
     parser = argparse.ArgumentParser(description="Простая генерация трещин без пересечений")
@@ -138,11 +137,11 @@ def main():
     parser.add_argument('--angle-spread', type=float, default=10)
     parser.add_argument('--len-mean', type=float, default=20)
     parser.add_argument('--len-spread', type=float, default=5)
-    parser.add_argument('--out', type=str, default='fractures.txt')
+    parser.add_argument('--out-folder', type=str)
     args = parser.parse_args()
 
     
-    buffer = 2 * math.sqrt(2) * N_chi
+    buffer = 3 * math.sqrt(2) * N_chi
 
     bbox = (args.xmin, args.xmax, args.ymin, args.ymax)
     fractures = generate_fractures(
@@ -150,13 +149,14 @@ def main():
         args.len_mean, args.len_spread,
         bbox, buffer
     )
+    out_file = args.out_folder + f"/fractures_{len(fractures)}_{(args.xmin + args.xmax)/2}_{(args.ymin + args.ymax)/2}_{(args.xmax - args.xmin)/2}_{(args.ymax - args.ymin)/2}_{args.len_mean}_{args.len_spread}_{args.angle_mean}_{args.angle_spread}.txt"
 
     # Сохраняем координаты трещин в файл
-    with open(args.out, 'w', encoding='utf-8') as f:
+    with open(out_file, 'w', encoding='utf-8') as f:
         for (x1, y1, x2, y2) in fractures:
             f.write(f"{x1:.6f} {y1:.6f} {x2:.6f} {y2:.6f}\n")
 
-    print(f"Создан файл {args.out} ({len(fractures)} трещин)")
+    print(f"Создан файл {out_file} ({len(fractures)} трещин)")
 
 
 if __name__ == '__main__':

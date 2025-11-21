@@ -1,8 +1,9 @@
 #By Alena Favorskaya, Jul 2025
+from math import pi, sqrt
 
-Nt = 601
-Nx = 401
-Ny = 201
+#Nt = 601
+Nx = 151
+Ny = 151
 step = 1.0
 cP = 2.0 #это км в сек. Или м в мс. то есть раз у нас все в м, то время в мс измерятеся. и тогда скорости звука такие
 cS = 1.0
@@ -11,7 +12,7 @@ dt = 0.4 #это мс
 N_chi = 5
 save = 6
 
-receivers_number_half = 200
+receivers_number_half = 50
 receivers_start_x = (0-receivers_number_half) * step
 receivers_end_x = receivers_number_half * step
 receivers_step = step
@@ -45,3 +46,9 @@ elif (var == 3):
 	pos_B_y = -40.0
 """
 freq = 0.06
+
+size_x_m = (Nx - 1) * step
+size_y_m = (Ny - 1) * step
+
+T = (max(size_x_m, size_y_m) / cS) + 3 * sqrt(6.0)/(pi * freq)
+Nt = (int)(T/dt + 0.5) + 1
