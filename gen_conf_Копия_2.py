@@ -320,23 +320,23 @@ print("""[/contacts]
 
 #сохранение волнового поля. чисто для теста. для генерации выборки оно не нужно
 #сохранение волнового поля. чисто для теста. для генерации выборки оно не нужно
-print("""    [saver]
-        name = StructuredVTKSaver
-        path = VTK/%g_%s.vtk
-        order = 1""")
-print("        save = %i" %save)
-print("""        save_rank = true
-        params = v
-        norms = 1
-    [/saver]""")
+# print("""    [saver]
+#         name = StructuredVTKSaver
+#         path = VTK/%g_%s.vtk
+#         order = 1""")
+# print("        save = %i" %save)
+# print("""        save_rank = true
+#         params = v
+#         norms = 1
+#     [/saver]""")
 
 #сохранение сейсмограммы
 
 print("""	[saver]					
 		name = SeismogramSaver""")
 print(f"		path = receivers_{filename}")					
-print("		r0 = %s, %s" %(receivers_start_x, receivers_y))			
-print("		dr = %s, 0.0" %(receivers_step))			
+print("		r0 = %s, %s" %(receivers_start_x, receivers_y))	#именно он служит для установки левого приемника	
+print("		dr = %s, 0.0" %(receivers_step)) #шаг по установке приемников
 print("		number = %s" %(receivers_number))			
 print("		eps = %s" %(tol))				
 print("		order = 2")

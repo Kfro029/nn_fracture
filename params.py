@@ -2,8 +2,8 @@
 from math import pi, sqrt
 
 #Nt = 601
-Nx = 151
-Ny = 151
+Nx = 651
+Ny = 651
 step = 1.0
 cP = 2.0 #это км в сек. Или м в мс. то есть раз у нас все в м, то время в мс измерятеся. и тогда скорости звука такие
 cS = 1.0
@@ -12,7 +12,7 @@ dt = 0.4 #это мс
 N_chi = 5
 save = 6
 
-receivers_number_half = 50
+receivers_number_half = 250
 receivers_start_x = (0-receivers_number_half) * step
 receivers_end_x = receivers_number_half * step
 receivers_step = step
