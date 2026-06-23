@@ -1,13 +1,15 @@
-rect/
-advlib/
-mlib/
+#rect/
+#advlib/
+#mlib/
 fractures/
 fractures_1500/
 fractures_1st_sel/
 fractures_2nd_sel/
-TXT/ 
-VTK/
-MESHES/
-SOURCES/
+fractures_try/
+
+#TXT/ 
+#VTK/
+#MESHES/
+#SOURCES/
 
 try.py
