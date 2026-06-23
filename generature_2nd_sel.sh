@@ -20,29 +20,34 @@ ANGLE_SPREADs=($(seq -1 0.5 1)) #разброс по углу
 MEAN_LENGTHs=(25 30 35 40) #средняя длина трещины
 LENGTH_SPREADs=(2 4 6) #разброс по длине
 
+xs=(0)
+ys=(-150)
 
-for N in "${Ns[@]}"; do
-    for MEAN_ANGLE in "${MEAN_ANGLEs[@]}"; do
-        for ANGLE_SPREAD in "${ANGLE_SPREADs[@]}"; do
-            for MEAN_LENGTH in "${MEAN_LENGTHs[@]}"; do
-                for LENGTH_SPREAD in "${LENGTH_SPREADs[@]}"; do
-                    
-                    BASE_NAME="fractures_${N}_${MEAN_ANGLE}_${ANGLE_SPREAD}_${MEAN_LENGTH}_${LENGTH_SPREAD}"
+dxs=(250)
+dys=(150)
 
-                    OUT_FILE="$FRACTURES_DIR/${BASE_NAME}.txt"
-                    META_FILE="$FRACTURES_DIR/${BASE_NAME}.json"
-    
-                    python3 fracture_generator_vtk.py \
-                    --xmin -200 --xmax 200 \
-                    --ymin -200 --ymax 200 \
-                    --N $N \
-                    --out "$OUT_FILE" \
-                    --meta "$META_FILE" \
-                    --vtk-type "$VTK_TYPE" \
-                    --spacing "$SPACING" \
-                    --angle-mean $MEAN_ANGLE --angle-spread 0 \
-                    --len-mean $MEAN_LENGTH --len-spread $LENGTH_SPREAD
-                    
+
+for x in "${xs[@]}"; do
+    for y in "${ys[@]}"; do
+        for dx in "${dxs[@]}"; do
+            for dy in "${dys[@]}"; do
+                for MEAN_LENGTH in "${MEAN_LENGTHs[@]}"; do
+                    for MEAN_ANGLE in "${MEAN_ANGLEs[@]}"; do
+                        for MEAN_ANGLE in "${MEAN_ANGLEs[@]}"; do
+                            for N in "${Ns[@]}"; do
+                                for LENGTH_SPREAD in "${LENGTH_SPREADs[@]}"; do
+                           
+                                    python3 fracture_gen_in_sq.py \
+                                    --xmin -250 --xmax 250 \
+                                    --ymin -300 --ymax 0 \
+                                    --N $N \
+                                    --out "$FRACTURES_DIR" \
+                                    --angle-mean $MEAN_ANGLE --angle-spread $MEAN_ANGLE \
+                                    --len-mean $MEAN_LENGTH --len-spread $LENGTH_SPREAD
+                                done
+                            done
+                        done
+                    done
                 done
             done
         done    

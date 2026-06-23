@@ -1,13 +1,15 @@
 #!/bin/bash
 
-#Author:  Alena V. Favorskaya, 2024 12 04
+#PBS -l walltime=1000:1:00,nodes=1:ppn=2
+#PBS -N alatortsev_1st_sel
+#PBS -q batch
 
 function empty_folder {
 	rm $1 -r
 	mkdir -p $1
 }
 
-FRACTURES_DIR="fractures"
+FRACTURES_DIR="fractures_1st_sel"
 
 for txt_file in "$FRACTURES_DIR"/*.txt; do
 	if [ -f "$txt_file" ]; then

@@ -25,10 +25,8 @@ import random
 import os
 from params import N_chi  # параметр ширины буфера из params.py
 
-# =======================================
-# 1. Простейшая геометрия
-# =======================================
 
+#геометрические функции
 def distance_point_to_segment(A, B, P):
     """Расстояние от точки P до отрезка AB"""
     # Вектор AB и AP
@@ -67,11 +65,7 @@ def segments_intersect(A, B, C, D):
     """Пересекаются ли два отрезка"""
     return (ccw(A, C, D) != ccw(B, C, D)) and (ccw(A, B, C) != ccw(A, B, D))
 
-
-# =======================================
-# 2. Размещение трещин
-# =======================================
-
+#для размещения трещин
 def generate_fractures(N, mean_angle, angle_spread, mean_length, length_spread, bbox, buffer):
     """
     Генерирует N трещин внутри области bbox = (xmin, xmax, ymin, ymax).

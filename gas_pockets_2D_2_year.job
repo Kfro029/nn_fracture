@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#PBS -l walltime=500:1:00,nodes=1:ppn=2
+#PBS -N gas_pockets_2D_2_year
+#PBS -q batch
+
+export OMP_NUM_THREADS=$PBS_NUM_PPN
+
+
+cd $PBS_O_WORKDIR
+
+
+~/rect/build/rect gas_pockets_2D_2_year.conf
